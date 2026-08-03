@@ -499,8 +499,11 @@ document.getElementById("lifeForm").addEventListener("submit", async (e) => {
 <script>
 (function(){var b=document.getElementById("dime_cta");if(!b)return;b.addEventListener("click",function(e){e.preventDefault();var n=parseInt((document.getElementById("dime_total").textContent||"").replace(/[^0-9]/g,""))||0;if(window.paQuote){window.paQuote.set("term", n||undefined);}else{location.hash="#ratecheck";}});})();
 </script>
-<script>/* auto-resize when embedded in an iframe */
-function paH(){try{parent.postMessage({paLifeHeight:document.documentElement.scrollHeight},"*");}catch(e){}}
-addEventListener("load",paH);addEventListener("resize",paH);setInterval(paH,800);</script>
+<script>/* auto-resize when embedded in an iframe (stable, non-looping) */
+(function(){var last=0;
+function h(){return Math.max(document.body.scrollHeight,document.body.offsetHeight);}
+function send(){try{var v=h();if(Math.abs(v-last)>4){last=v;parent.postMessage({paLifeHeight:v},"*");}}catch(e){}}
+addEventListener("load",send);addEventListener("resize",send);
+[300,900,1800,3200].forEach(function(t){setTimeout(send,t);});})();</script>
 </body>
 </html>
