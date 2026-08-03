@@ -250,9 +250,10 @@ h2{font-size:38px}
   /* ---------- render ---------- */
   function render(){
     var covMin = S.product==="fe"?2000:(S.product==="term"?100000:10000);
-    var covMax = S.product==="fe"?50000:(S.product==="term"?500000:150000);
+    var covMax = S.product==="fe"?50000:(S.product==="term"?1500000:150000);
     var covStep = S.product==="fe"?1000:(S.product==="term"?25000:5000);
     if(S.cov<covMin) S.cov=covMin; if(S.cov>covMax) S.cov=covMax;
+    S.cov=Math.round(S.cov/covStep)*covStep;
     var ageMin = S.product==="term"?25:40, ageMax = S.product==="term"?70:85;
     if(S.age<ageMin) S.age=ageMin; if(S.age>ageMax) S.age=ageMax;
 
