@@ -15,6 +15,10 @@
   .topbar .container{display:flex;align-items:center;justify-content:space-between}
   .topbar img{width:150px;height:auto;display:block}
   .topbar span{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;color:var(--navy)}
+  .topbar a.pa-logo{display:block;line-height:0}
+  .topbar nav.pa-nav{display:flex;gap:26px;align-items:center}
+  .topbar nav.pa-nav a{font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;color:var(--navy);text-decoration:none}
+  .topbar nav.pa-nav a:hover{color:var(--gold)}
   .goldline{height:3px;background:var(--gold)}
   .hero{background:linear-gradient(160deg,#228FCB 0%,#12699E 100%);padding:64px 0 72px;color:#fff}
   .hero .eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:bold;color:var(--gold);margin-bottom:14px}
@@ -103,8 +107,11 @@ h2{font-size:38px}
 <body>
 <div class="topbar">
   <div class="container">
-    <img src="https://assets.cdn.filesafe.space/Z4AhIn93nEhrQQO6rb0M/media/68f768ee924f1edb572ba902.png" alt="Phil-Am Insurance Agency">
-    <span>Life&nbsp;Insurance</span>
+    <a href="https://philaminsurance.com/" target="_top" class="pa-logo"><img src="https://assets.cdn.filesafe.space/Z4AhIn93nEhrQQO6rb0M/media/68f768ee924f1edb572ba902.png" alt="Phil-Am Insurance Agency"></a>
+    <nav class="pa-nav">
+      <a href="https://philaminsurance.com/" target="_top">Home</a>
+      <a href="#quote">Get a Quote</a>
+    </nav>
   </div>
 </div>
 <div class="goldline"></div>
