@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annuities | Phil-Am Insurance Agency</title>
+<meta name="description" content="Add certainty to your retirement. Independent annuity guidance from Phil-Am Insurance Agency — fixed, multi-year guaranteed, fixed indexed, and income annuities from A-rated carriers including North American, Mutual of Omaha, and Athene.">
+<style>
+  :root{--navy:#228FCB;--gold:#F2B01E;--ink:#33414E;--muted:#7A8794;--light:#F4F6F9;--card:#F7F9FC;--line:#E2E8F0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Arial,Helvetica,sans-serif;background:var(--light);color:var(--ink);line-height:1.6}
+  .container{max-width:960px;margin:0 auto;padding:0 20px}
+  .serif{font-family:'Inter',sans-serif}
+  .topbar{background:#fff;padding:14px 0}
+  .topbar .container{display:flex;align-items:center;justify-content:space-between}
+  .topbar img{width:150px;height:auto;display:block}
+  .topbar span{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;color:var(--navy)}
+  .topbar a.pa-logo{display:block;line-height:0}
+  .topbar nav.pa-nav{display:flex;gap:26px;align-items:center}
+  .topbar nav.pa-nav a{font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;color:var(--navy);text-decoration:none}
+  .topbar nav.pa-nav a:hover{color:var(--gold)}
+  .goldline{height:3px;background:var(--gold)}
+  .hero{background:linear-gradient(160deg,#228FCB 0%,#12699E 100%);padding:64px 0 72px;color:#fff}
+  .hero .eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:bold;color:var(--gold);margin-bottom:14px}
+  .hero h1{font-family:'Inter',sans-serif;font-size:42px;line-height:1.15;margin-bottom:16px}
+  .hero p{font-size:17px;color:#D9E3F0;max-width:640px;margin-bottom:28px}
+  .btnrow{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:15px 30px;border-radius:8px;font-weight:bold;font-size:15px;text-decoration:none;cursor:pointer;border:none;font-family:inherit}
+  .btn-gold{background:var(--gold);color:var(--navy)}
+  .btn-ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5)}
+  .btn-gold:hover{filter:brightness(1.06)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+  section{padding:56px 0}
+  .eyebrow2{font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:bold;color:#B57F0A;margin-bottom:8px}
+  h2{font-family:'Inter',sans-serif;font-size:30px;color:var(--navy);margin-bottom:12px}
+  .lead{font-size:16px;max-width:680px;margin-bottom:28px}
+  .calc{background:#fff;border-radius:16px;padding:34px;box-shadow:0 2px 16px rgba(11,37,69,.07)}
+  .calcgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px 26px}
+  .calc label{display:block;font-size:13px;font-weight:bold;color:var(--navy);margin-bottom:6px}
+  .calc label .hint{font-weight:normal;color:var(--muted)}
+  .calc input[type=range]{width:100%;accent-color:var(--gold);height:28px;touch-action:none}
+  .rangeval{font-family:'Inter',sans-serif;font-weight:bold;font-size:20px;color:var(--navy)}
+  .toggle{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+  .tg{flex:1;min-width:52px;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:10px 6px;cursor:pointer;font-size:13px;font-weight:bold;color:var(--muted);font-family:inherit}
+  .tg.is-on{background:var(--navy);border-color:var(--navy);color:#fff}
+  .calcresult{grid-column:1/-1;background:var(--navy);border-radius:12px;padding:24px 26px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .calcresult .block .lbl{color:#D9E3F0;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  .calcresult .block .num{font-family:'Inter',sans-serif;font-size:32px;color:var(--gold);font-weight:bold;line-height:1.15;margin-top:4px}
+  .calcresult .block.alt .num{color:#D9E3F0}
+  .calcadv{grid-column:1/-1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:15px;color:var(--ink)}
+  .calcadv strong{color:var(--navy);font-family:'Inter',sans-serif}
+  .calcnote{grid-column:1/-1;font-size:12px;color:var(--muted)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+  .cardx{background:#fff;border-radius:14px;padding:24px;border-top:4px solid var(--gold)}
+  .cardx h3{font-family:'Inter',sans-serif;font-size:18px;color:var(--navy);margin-bottom:8px}
+  .cardx p{font-size:14px}
+  .carriers{background:var(--navy);color:#fff}
+  .carriers h2{color:#fff}
+  .carrierlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px 24px;margin-top:18px}
+  .carrierlist div{background:rgba(255,255,255,.07);border-radius:10px;padding:18px 20px}
+  .carrierlist div strong{display:block;font-family:'Inter',sans-serif;font-size:17px;color:var(--gold);margin-bottom:5px}
+  .carrierlist div span{font-size:13.5px;color:#EAF1F8;line-height:1.5}
+  .carriers .lead{color:#D9E3F0}
+  .faq{background:#fff}
+  .faqlist{display:grid;grid-template-columns:1fr 1fr;gap:16px 26px;margin-top:10px}
+  .faqitem{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+  .faqitem h3{font-family:'Inter',sans-serif;font-size:16px;color:var(--navy);margin-bottom:6px}
+  .faqitem p{font-size:14px;color:var(--ink)}
+  .guide .guidebox{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 30px}
+  .guidebox h3{font-family:'Inter',sans-serif;font-size:20px;color:var(--navy);margin-bottom:4px}
+  .guidebox p{font-size:14px;color:var(--muted)}
+  .formwrap{background:#fff;border-radius:16px;padding:36px;box-shadow:0 2px 16px rgba(11,37,69,.07);max-width:640px;margin:0 auto}
+  .formwrap label{display:block;font-size:13px;font-weight:bold;color:var(--navy);margin:16px 0 6px}
+  .formwrap label .opt{font-weight:normal;color:var(--muted)}
+  .formwrap input,.formwrap select,.formwrap textarea{width:100%;padding:13px 14px;font-size:15px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-family:inherit}
+  .formwrap input:focus,.formwrap select:focus,.formwrap textarea:focus{outline:none;border-color:var(--gold);background:#fff}
+  .formwrap textarea{min-height:88px;resize:vertical}
+  .hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
+  .formwrap button{width:100%;margin-top:24px}
+  .sub{margin-top:12px;text-align:center;font-size:13px;color:var(--muted)}
+  .sub a{color:var(--navy)}
+  .err{display:none;margin-top:14px;padding:12px 14px;border-radius:8px;background:#FBEAEA;color:#8C2B2B;font-size:14px}
+  .success{display:none;text-align:center;padding:30px 10px}
+  .success .check{width:64px;height:64px;border-radius:50%;background:var(--navy);color:var(--gold);font-size:32px;line-height:64px;margin:0 auto 18px}
+  .success h3{font-family:'Inter',sans-serif;font-size:22px;color:var(--navy);margin-bottom:8px}
+  footer{padding:28px 0 42px;text-align:center;font-size:11px;color:var(--muted);line-height:1.7}
+  @media(max-width:640px){.hero h1{font-size:31px}.calcgrid{grid-template-columns:1fr}.calcresult{grid-template-columns:1fr}.faqlist{grid-template-columns:1fr}section{padding:40px 0}}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Dosis:wght@600;700&family=Metrophobic&display=swap" rel="stylesheet">
+<style>
+/* ===== Match philaminsurance.com corporate brand ===== */
+:root{--navy:#228FCB;--gold:#FFCE47;--light:#F5F5F5}
+body{font-family:"Metrophobic",Arial,sans-serif;background:#F5F5F5}
+.hero{background:linear-gradient(160deg,#228FCB 0%,#12699E 100%)}
+h1,h2,h3,.serif,.hero h1,.calcresult .num,.cardx h3,.guidebox h3,.faqitem h3{font-family:"Inter",sans-serif;font-weight:800}
+.btn{font-family:"Dosis",sans-serif;font-weight:700;letter-spacing:.03em;border-radius:0}
+.btn-gold{color:#033537}
+/* ===== Wider, full-bleed layout to match the corporate site ===== */
+.container{max-width:1200px;padding:0 32px}
+.hero{padding:96px 0 104px}
+.hero h1{font-size:56px;line-height:1.08;max-width:900px}
+.hero p{font-size:19px;max-width:760px}
+section{padding:80px 0}
+h2{font-size:38px}
+.lead{font-size:17px;max-width:760px}
+.calc{padding:44px}
+.formwrap{max-width:780px;padding:44px}
+.carrierlist{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.cards{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+@media(max-width:640px){.hero h1{font-size:34px}.hero{padding:60px 0 64px}.container{padding:0 18px}section{padding:48px 0}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="container">
+    <img src="https://assets.cdn.filesafe.space/Z4AhIn93nEhrQQO6rb0M/media/68f768ee924f1edb572ba902.png" alt="Phil-Am Insurance Agency">
+    <span>Annuities</span>
+  </div>
+</div>
+<div class="goldline"></div>
+
+<div class="hero">
+  <div class="container">
+    <div class="eyebrow">Independent &bull; A-Rated Carriers &bull; No Obligation</div>
+    <h1 class="serif">Income you can't outlive. Growth you can count on.</h1>
+    <p>An annuity is the part of your retirement plan that doesn't flinch when the market does. It can protect your principal, grow tax-deferred, and turn your savings into a paycheck for life. Our team shops top-rated carriers to find the annuity that fits your goals — and your comfort with risk.</p>
+    <div class="btnrow">
+      <a class="btn btn-gold" href="#quote">Get My Free Annuity Review</a>
+      <a class="btn btn-ghost" href="#growth">See How It Grows</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="eyebrow2">The Case for Annuities</div>
+    <h2>Why add an annuity to your portfolio?</h2>
+    <p class="lead">Your 401(k) and investments are built to grow your money. An annuity is built to protect it and pay it back to you — a financial foundation you can't outlive, so the rest of your portfolio has room to do its job. Here's what that foundation gives you.</p>
+    <div class="cards">
+      <div class="cardx"><h3>Tax-Deferred Growth</h3><p>Your money compounds without a yearly tax bill. Every dollar of interest keeps earning instead of being trimmed by taxes each April — so more of your money works for you, longer.</p></div>
+      <div class="cardx"><h3>Protection From Loss</h3><p>Fixed and fixed-indexed annuities can't lose value to a market downturn. Your principal and credited interest are locked in, with a 0% floor in the worst years.</p></div>
+      <div class="cardx"><h3>Income for Life</h3><p>Convert your savings into a guaranteed paycheck that keeps coming as long as you live — no matter how markets perform or how long you live.</p></div>
+      <div class="cardx"><h3>Backed by Strong Carriers</h3><p>Guarantees are backed by the financial strength of the issuing company, which is why we work only with established, highly rated insurers.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="growth" style="background:#fff">
+  <div class="container">
+    <div class="eyebrow2">The Tax-Deferral Advantage</div>
+    <h2>See how tax-deferred growth adds up</h2>
+    <p class="lead">Because an annuity grows tax-deferred, you're not handing the IRS a slice of your interest every year — so it keeps compounding on itself. Move the sliders to see the difference between the same money growing inside an annuity versus a taxable account.</p>
+    <div class="calc">
+      <div class="calcgrid">
+        <div>
+          <label>Amount you'd start with <span class="hint">(single premium)</span></label>
+          <div class="rangeval" id="v_premium">$100,000</div>
+          <input type="range" id="s_premium" min="10000" max="500000" step="5000" value="100000">
+        </div>
+        <div>
+          <label>Years it grows</label>
+          <div class="rangeval" id="v_years">10 years</div>
+          <input type="range" id="s_years" min="1" max="30" step="1" value="10">
+        </div>
+        <div>
+          <label>Assumed annual growth rate <span class="hint">(illustrative)</span></label>
+          <div class="rangeval" id="v_rate">5.0%</div>
+          <input type="range" id="s_rate" min="1" max="8" step="0.1" value="5">
+        </div>
+        <div>
+          <label>Your tax bracket <span class="hint">(for the taxable comparison)</span></label>
+          <div class="toggle" id="t_bracket">
+            <button class="tg" data-v="0.12">12%</button>
+            <button class="tg is-on" data-v="0.22">22%</button>
+            <button class="tg" data-v="0.24">24%</button>
+            <button class="tg" data-v="0.32">32%</button>
+          </div>
+        </div>
+        <div class="calcresult">
+          <div class="block"><div class="lbl">In a tax-deferred annuity</div><div class="num" id="r_annuity">$0</div></div>
+          <div class="block alt"><div class="lbl">Same money, taxed every year</div><div class="num" id="r_taxable">$0</div></div>
+        </div>
+        <div class="calcadv" id="r_adv"></div>
+        <div class="calcnote">Hypothetical illustration only. Assumes a single deposit, a constant rate, and no withdrawals; the taxable comparison assumes interest is taxed each year at the bracket shown. Annuity growth is tax-deferred, not tax-free — you pay ordinary income tax on the gains when you withdraw them, and withdrawals before age 59&frac12; may incur a 10% IRS penalty. Not a prediction or guarantee of any specific product's results.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="eyebrow2">Plain-English Options</div>
+    <h2>Annuities for every retirement goal</h2>
+    <div class="cards">
+      <div class="cardx"><h3>Multi-Year Guaranteed (MYGA)</h3><p>A guaranteed, fixed interest rate locked in for a set term — like a CD, but tax-deferred and often at a higher rate. Simple, predictable, and principal-protected.</p></div>
+      <div class="cardx"><h3>Fixed Indexed (FIA)</h3><p>Growth linked to a market index with a 0% floor, so a down year never costs you principal. Upside potential without the downside of the market.</p></div>
+      <div class="cardx"><h3>Immediate Income (SPIA)</h3><p>Turn a lump sum into a guaranteed paycheck that starts right away and can last your entire life — a private pension you create on your terms.</p></div>
+      <div class="cardx"><h3>Deferred Income</h3><p>Set money aside now for guaranteed income that begins on a future date you choose, often at a higher payout the longer you wait.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="carriers">
+  <div class="container">
+    <div class="eyebrow" style="color:var(--gold)">Independent Advantage</div>
+    <h2 class="serif">We shop A-rated carriers so you don't have to</h2>
+    <p class="lead">One conversation, multiple companies competing for your retirement dollars. Our annuity partners are among the most respected names in the industry:</p>
+    <div class="carrierlist">
+      <div><strong>North American</strong><span>Rated A+ (Superior) by AM Best. Serving families since 1886, with competitive fixed indexed and multi-year guaranteed annuities.</span></div>
+      <div><strong>Mutual of Omaha</strong><span>Rated A+ (Superior) by AM Best. A household name since 1909, offering fixed, indexed, and lifetime-income annuities.</span></div>
+      <div><strong>Athene</strong><span>Rated A+ (Superior) by AM Best. One of America's largest annuity providers, known for strong rates and generous liquidity.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="container">
+    <div class="eyebrow2">Straight Answers</div>
+    <h2>Common questions, answered honestly</h2>
+    <div class="faqlist">
+      <div class="faqitem"><h3>Can I still access my money?</h3><p>Yes. Most contracts let you withdraw a portion penalty-free each year (often up to 10%), plus waivers for events like a nursing-home stay or terminal illness. Larger withdrawals during the initial term may trigger a surrender charge, so annuities are meant for money you won't need all at once.</p></div>
+      <div class="faqitem"><h3>Are annuities safe?</h3><p>Fixed and fixed-indexed annuities protect your principal from market losses. Guarantees are backed by the issuing carrier's financial strength — which is exactly why we place business only with highly rated companies like the ones above.</p></div>
+      <div class="faqitem"><h3>How are they taxed?</h3><p>Growth is tax-deferred, not tax-free. You pay ordinary income tax on the gains when you withdraw them, and withdrawals before age 59&frac12; may face a 10% federal penalty. Inside an IRA, an annuity follows the same rules as the IRA.</p></div>
+      <div class="faqitem"><h3>Are there fees?</h3><p>Fixed and MYGA annuities typically carry no annual fee. Optional income riders and some indexed products have a cost — your agent will spell out every charge in plain English before you decide anything.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="guide">
+  <div class="container">
+    <div class="guidebox">
+      <div>
+        <h3>Not sure which annuity fits?</h3>
+        <p>Get a free, no-pressure review. We'll compare your options across our carriers and show you the numbers in plain English.</p>
+      </div>
+      <a class="btn btn-gold" href="#quote">Get My Free Review</a>
+    </div>
+  </div>
+</section>
+
+<section id="quote" style="padding-top:24px">
+  <div class="container">
+    <div class="formwrap">
+      <div class="eyebrow2">Free &bull; No Obligation</div>
+      <h2>Get your free annuity review</h2>
+      <form id="annuityForm" novalidate>
+        <label for="name">Full Name</label>
+        <input id="name" name="full_name" type="text" autocomplete="name" required>
+        <label for="phone">Phone Number</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+        <label for="age">Age range</label>
+        <select id="age" name="age_range">
+          <option>Under 45</option><option>45&ndash;54</option><option>55&ndash;59</option><option>60&ndash;64</option><option>65&ndash;69</option><option>70&ndash;74</option><option>75+</option>
+        </select>
+        <label for="amount">How much are you considering putting toward an annuity?</label>
+        <select id="amount" name="amount_range">
+          <option>Not sure yet</option><option>Under $25,000</option><option>$25,000 &ndash; $50,000</option><option>$50,000 &ndash; $100,000</option><option>$100,000 &ndash; $250,000</option><option>$250,000 or more</option>
+        </select>
+        <label for="interest">What's most important to you?</label>
+        <select id="interest" name="interest">
+          <option>Not sure &mdash; help me choose</option>
+          <option>Guaranteed growth (MYGA / fixed)</option>
+          <option>Market-linked growth with protection (indexed)</option>
+          <option>Guaranteed income for life</option>
+          <option>Leaving money to my heirs</option>
+          <option>Rolling over a 401(k) or IRA</option>
+        </select>
+        <label for="notes">Anything in particular you'd like to discuss? <span class="opt">(optional)</span></label>
+        <textarea id="notes" name="notes" maxlength="1000" placeholder="Share any details that would help us prepare&hellip;"></textarea>
+        <div class="hp" aria-hidden="true"><label>Leave this field empty</label><input name="xfield_9917" tabindex="-1" autocomplete="new-password"></div>
+        <button class="btn btn-gold" id="btn" type="submit">Get My Free Review</button>
+        <div class="err" id="err"></div>
+        <p class="sub">Prefer to talk now? Call us at <a href="tel:8324903880">(832) 490-3880</a>.</p>
+      </form>
+      <div class="success" id="success">
+        <div class="check">&#10003;</div>
+        <h3>Request received!</h3>
+        <p>A member of the Phil-Am team will reach out within one business day with your annuity options.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Phil-Am Insurance Agency &bull; 5700 NW Central Dr STE 250, Houston, TX 77092 &bull; (832) 490-3880 &bull; info@philaminsurance.com<br>
+    This page is for general educational purposes and is not financial, tax, or legal advice, nor an offer or recommendation of any specific product. Annuities are insurance products; guarantees are backed by the financial strength and claims-paying ability of the issuing company. Product features, availability, rates, and riders vary by carrier, state, and age. Withdrawals may be subject to surrender charges and, if taken before age 59&frac12;, a 10% federal tax penalty. Growth illustrations are hypothetical, assume a constant rate, and are not a prediction or guarantee of future results.
+  </div>
+</footer>
+
+<script>
+/* ===== Tax-deferred growth calculator ===== */
+(function(){
+  var S = { premium:100000, years:10, rate:5.0, bracket:0.22 };
+  var money = function(n){ return "$" + Math.round(n).toLocaleString("en-US"); };
+  var els = {
+    premium: document.getElementById("s_premium"),
+    years:   document.getElementById("s_years"),
+    rate:    document.getElementById("s_rate"),
+    vPrem:   document.getElementById("v_premium"),
+    vYears:  document.getElementById("v_years"),
+    vRate:   document.getElementById("v_rate"),
+    rAnn:    document.getElementById("r_annuity"),
+    rTax:    document.getElementById("r_taxable"),
+    rAdv:    document.getElementById("r_adv")
+  };
+  function calc(){
+    var P = S.premium, r = S.rate/100, n = S.years, t = S.bracket;
+    var annuity = P * Math.pow(1 + r, n);
+    var taxable = P * Math.pow(1 + r*(1-t), n);
+    var diff = annuity - taxable;
+    els.vPrem.textContent  = money(P);
+    els.vYears.textContent = n + (n===1 ? " year" : " years");
+    els.vRate.textContent  = S.rate.toFixed(1) + "%";
+    els.rAnn.textContent   = money(annuity);
+    els.rTax.textContent   = money(taxable);
+    var interest = annuity - P;
+    els.rAdv.innerHTML = "Over " + n + (n===1?" year":" years") +
+      ", tax-deferred growth leaves you with about <strong>" + money(diff) +
+      "</strong> more than the same money taxed each year &mdash; and roughly <strong>" +
+      money(interest) + "</strong> of total interest still compounding inside the annuity.";
+  }
+  els.premium.addEventListener("input", function(){ S.premium = parseInt(this.value,10); calc(); });
+  els.years.addEventListener("input",   function(){ S.years   = parseInt(this.value,10); calc(); });
+  els.rate.addEventListener("input",    function(){ S.rate    = parseFloat(this.value);  calc(); });
+  document.getElementById("t_bracket").querySelectorAll(".tg").forEach(function(b){
+    b.addEventListener("click", function(){
+      document.querySelectorAll("#t_bracket .tg").forEach(function(x){ x.classList.remove("is-on"); });
+      b.classList.add("is-on");
+      S.bracket = parseFloat(b.getAttribute("data-v"));
+      calc();
+    });
+  });
+  calc();
+})();
+
+/* ===== Lead form ===== */
+(function(){
+  var WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/Z4AhIn93nEhrQQO6rb0M/webhook-trigger/4d45b301-56a7-4ae8-b0eb-e98ada4ffcc0";
+  var qs = new URLSearchParams(location.search);
+  var utm = { utm_source: qs.get("utm_source")||"", utm_medium: qs.get("utm_medium")||"", utm_campaign: qs.get("utm_campaign")||"" };
+  ["name","phone","email"].forEach(function(id){
+    document.getElementById(id).addEventListener("focus", function(){
+      document.querySelector('[name="xfield_9917"]').value = "";
+    }, { once: true });
+  });
+  var phoneEl = document.getElementById("phone");
+  phoneEl.addEventListener("input", function(){
+    var d = phoneEl.value.replace(/\D/g, "");
+    if (d.length === 11 && d.charAt(0) === "1") d = d.slice(1);
+    d = d.slice(0, 10);
+    var out = d;
+    if (d.length > 6)      out = "(" + d.slice(0,3) + ") " + d.slice(3,6) + "-" + d.slice(6);
+    else if (d.length > 3) out = "(" + d.slice(0,3) + ") " + d.slice(3);
+    else if (d.length > 0) out = "(" + d;
+    phoneEl.value = out;
+  });
+  document.getElementById("annuityForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+    var f = e.target, btn = document.getElementById("btn"), err = document.getElementById("err");
+    err.style.display = "none";
+    if (f.xfield_9917.value) return;
+    var digits = f.phone.value.replace(/\D/g, "").replace(/^1/, "");
+    if (!f.full_name.value.trim() || !f.email.value.trim() || digits.length !== 10) {
+      err.textContent = (digits.length !== 10 && f.phone.value) ? "Please enter a full 10-digit phone number." : "Please fill in your name, phone, and email.";
+      err.style.display = "block"; return;
+    }
+    btn.disabled = true; btn.textContent = "Sending…";
+    var payload = {
+      full_name: f.full_name.value.trim(),
+      phone: "+1" + digits,
+      phone_display: f.phone.value.trim(),
+      email: f.email.value.trim().toLowerCase(),
+      age_range: f.age_range.value,
+      amount_range: f.amount_range.value,
+      interest: f.interest.value,
+      notes: f.notes.value.trim().slice(0, 1000),
+      source: "annuity-landing-page",
+      submitted_at: new Date().toISOString(),
+      page_url: location.href,
+      utm_source: utm.utm_source, utm_medium: utm.utm_medium, utm_campaign: utm.utm_campaign
+    };
+    try {
+      var r = await fetch(WEBHOOK_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      if (!r.ok) throw new Error(r.status);
+      f.style.display = "none";
+      document.getElementById("success").style.display = "block";
+    } catch (_) {
+      err.textContent = "Something went wrong. Please try again, or call us at (832) 490-3880.";
+      err.style.display = "block";
+      btn.disabled = false; btn.textContent = "Get My Free Review";
+    }
+  });
+})();
+
+/* ===== Smooth-scroll for in-page links (works standalone and embedded) ===== */
+(function(){
+  function embedded(){ try{ return window.parent && window.parent !== window; }catch(e){ return true; } }
+  function scrollToEl(el){
+    if(!el) return;
+    if(embedded()){
+      var top = el.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0);
+      try{ parent.postMessage({ paScrollTo: Math.round(top) }, "*"); }catch(e){}
+    } else {
+      el.scrollIntoView({ behavior:"smooth", block:"start" });
+    }
+  }
+  document.addEventListener("click", function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if(a){ var id = a.getAttribute("href").slice(1); if(id){ var t = document.getElementById(id); if(t){ e.preventDefault(); scrollToEl(t); } } }
+  });
+})();
+
+/* ===== Auto-resize when embedded in an iframe (stable, non-looping) ===== */
+(function(){
+  var last = 0;
+  function h(){ return Math.max(document.body.scrollHeight, document.body.offsetHeight); }
+  function send(){ try{ var v = h(); if(Math.abs(v - last) > 4){ last = v; parent.postMessage({ paAnnuityHeight: v }, "*"); } }catch(e){} }
+  addEventListener("load", send);
+  addEventListener("resize", send);
+  [300,900,1800,3200].forEach(function(t){ setTimeout(send, t); });
+})();
+</script>
+</body>
+</html>
