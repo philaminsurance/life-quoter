@@ -249,6 +249,44 @@ h2{font-size:38px}
   function paScrollToEl(el){ if(!el) return; if(paEmbedded()){ var top=el.getBoundingClientRect().top+(window.pageYOffset||document.documentElement.scrollTop||0); try{ parent.postMessage({paScrollTo:Math.round(top)},"*"); }catch(e){} } else { el.scrollIntoView({behavior:"smooth",block:"start"}); } }
   function scrollToForm(){ paScrollToEl(document.getElementById("quote")); }
   function computeResults(){
+    var results="";
+    function resultCards(list, subtitle){
+      var s='', best=list[0];
+      s+='<div class="pa-hero"><div class="pa-hero-l">Estimated rates from</div><div class="pa-hero-p">'+money2(best.monthly)+'<span>/mo</span></div><div class="pa-hero-s">'+subtitle+'</div></div>';
+      s+='<div class="pa-cards">';
+      for(var j=0;j<list.length;j++){ var q=list[j];
+        s+='<div class="pa-card'+(j===0?" is-best":"")+'"><div class="pa-card-main"><div class="pa-card-name">'+q.name+(j===0?' <span class="pa-badge">Lowest</span>':'')+'</div><div class="pa-card-sub">'+q.product+'</div></div><div class="pa-card-right"><div class="pa-card-price">'+money2(q.monthly)+'<span>/mo</span></div><button class="pa-mini" data-cta="1">Get this rate</button></div></div>';
+      }
+      return s+'</div>';
+    }
+    if(S.product==="fe"){
+      var list=[]; for(var i=0;i<FE.length;i++){ var q=priceFE(FE[i],{age:S.age,gender:S.gender,tob:S.tob,state:S.state,tier:S.tier,cov:S.cov}); if(q) list.push(q); }
+      list.sort(function(a,b){return a.monthly-b.monthly;});
+      if(list.length){ results+=resultCards(list, money(S.cov)+' Final Expense \u00b7 '+list.length+' carrier'+(list.length>1?"s":"")+' available'); }
+      else { results+='<div class="pa-none">No match for these details in '+S.state+'. Try a different amount or health option \u2014 or <a href="#" data-cta="1">talk to an agent</a>.</div>'; }
+    } else if(S.product==="term"){
+      var list=[]; for(var i=0;i<TERM_ORDER.length;i++){ var q=priceTerm(TERM_ORDER[i],{age:S.age,gender:S.gender,tob:S.tob,term:parseInt(S.term,10),face:S.cov}); if(q) list.push(q); }
+      list.sort(function(a,b){return a.monthly-b.monthly;});
+      if(list.length){ results+=resultCards(list, money(S.cov)+' Term \u00b7 '+S.term+'-year \u00b7 '+list.length+' carrier'+(list.length>1?"s":"")); }
+      else { results+='<div class="pa-none">No match for this age/term. Try adjusting \u2014 or <a href="#" data-cta="1">talk to an agent</a>.</div>'; }
+    } else {
+      results+='<div class="pa-soon"><div class="pa-soon-t">Your exact Whole Life quote is one step away</div><div class="pa-soon-s">We shop your A-rated carriers \u2014 Mutual of Omaha, Corebridge, Foresters and more \u2014 to build the right permanent policy for '+money(S.cov)+'.</div><button class="pa-cta" data-cta="1">Get my Whole Life quote</button></div>';
+    }
+    return results;
+  }
+  function bindCta(){ ROOT.querySelectorAll("[data-cta]").forEach(function(b){ b.onclick=function(e){ e.preventDefault(); scrollToForm(); }; }); }
+  function renderResults(){ var el=ROOT.querySelector(".pa-results"); if(el){ el.innerHTML=computeResults(); bindCta(); } }
+
+  /* ---------- render ---------- */
+  function render(){
+    var covMin = S.product==="fe"?2000:(S.product==="term"?100000:10000);
+    var covMax = S.product==="fe"?50000:(S.product==="term"?1500000:150000);
+    var covStep = S.product==="fe"?1000:(S.product==="term"?25000:5000);
+    if(S.cov<covMin) S.cov=covMin; if(S.cov>covMax) S.cov=covMax;
+    S.cov=Math.round(S.cov/covStep)*covStep;
+    var ageMin = S.product==="term"?25:40, ageMax = S.product==="term"?70:85;
+    if(S.age<ageMin) S.age=ageMin; if(S.age>ageMax) S.age=ageMax;
+
     var results=computeResults();
 
     ROOT.innerHTML =
