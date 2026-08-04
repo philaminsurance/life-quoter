@@ -353,7 +353,7 @@ h2{font-size:38px}
 
   // Hook for the D.I.M.E. calculator: jump to the quoter with a coverage amount prefilled.
   window.paQuote = { set:function(product, cov){ if(product){ S.product=product; } if(cov){ S.cov=cov; } render(); try{ paScrollToEl(document.getElementById("ratecheck")||ROOT); }catch(e){} } };
-  document.addEventListener("click",function(e){ var a=e.target&&e.target.closest?e.target.closest('a[href^="#"]'):null; if(a){ var id=a.getAttribute("href").slice(1); if(id){ var t=document.getElementById(id); if(t){ e.preventDefault(); paScrollToEl(t); } } } });
+  document.addEventListener("click",function(e){ if(e.defaultPrevented) return; var a=e.target&&e.target.closest?e.target.closest('a[href^="#"]'):null; if(a){ var id=a.getAttribute("href").slice(1); if(id){ var t=document.getElementById(id); if(t){ e.preventDefault(); paScrollToEl(t); } } } });
   render();
 })();
 </script>
