@@ -155,7 +155,7 @@ h2{font-size:38px}
         <div>
           <label>Amount you'd start with <span class="hint">(single premium)</span></label>
           <div class="rangeval" id="v_premium">$100,000</div>
-          <input type="range" id="s_premium" min="10000" max="500000" step="5000" value="100000">
+          <input type="range" id="s_premium" min="10000" max="2500000" step="5000" value="100000">
         </div>
         <div>
           <label>Years it grows</label>
@@ -259,7 +259,7 @@ h2{font-size:38px}
         </select>
         <label for="amount">How much are you considering putting toward an annuity?</label>
         <select id="amount" name="amount_range">
-          <option>Not sure yet</option><option>Under $25,000</option><option>$25,000 &ndash; $50,000</option><option>$50,000 &ndash; $100,000</option><option>$100,000 &ndash; $250,000</option><option>$250,000 or more</option>
+          <option>Not sure yet</option><option>Under $25,000</option><option>$25,000 &ndash; $50,000</option><option>$50,000 &ndash; $100,000</option><option>$100,000 &ndash; $250,000</option><option>$250,000 &ndash; $500,000</option><option>$500,000 &ndash; $1,000,000</option><option>$1,000,000 &ndash; $2,500,000</option><option>$2,500,000+</option>
         </select>
         <label for="interest">What's most important to you?</label>
         <select id="interest" name="interest">
@@ -348,8 +348,10 @@ h2{font-size:38px}
         premium: S.premium, years: S.years, rate: S.rate,
         bracket: S.bracket, annuity: last.annuity, taxable: last.taxable
       };
-      var idx = (S.premium < 25000) ? 1 : (S.premium < 50000) ? 2 :
-                (S.premium < 100000) ? 3 : (S.premium < 250000) ? 4 : 5;
+      var p = S.premium;
+      var idx = (p < 25000) ? 1 : (p < 50000) ? 2 : (p < 100000) ? 3 :
+                (p < 250000) ? 4 : (p < 500000) ? 5 : (p < 1000000) ? 6 :
+                (p < 2500000) ? 7 : 8;
       var amt = document.getElementById("amount");
       if (amt) amt.selectedIndex = idx;
     });
