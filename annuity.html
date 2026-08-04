@@ -75,6 +75,16 @@
   .formwrap input,.formwrap select,.formwrap textarea{width:100%;padding:13px 14px;font-size:15px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-family:inherit}
   .formwrap input:focus,.formwrap select:focus,.formwrap textarea:focus{outline:none;border-color:var(--gold);background:#fff}
   .formwrap textarea{min-height:88px;resize:vertical}
+  /* Custom dropdowns (DOM-based, work inside any embed — no native popup) */
+  .pa-sel{position:relative;font-family:inherit;margin-top:0}
+  .pa-sel-btn{width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;font-size:15px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-family:inherit;cursor:pointer}
+  .pa-sel.open .pa-sel-btn,.pa-sel-btn:focus{outline:none;border-color:var(--gold);background:#fff}
+  .pa-sel-arrow{flex:0 0 auto;width:8px;height:8px;border:solid var(--muted);border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-3px;transition:transform .15s}
+  .pa-sel.open .pa-sel-arrow{transform:rotate(-135deg);margin-top:3px}
+  .pa-sel-list{position:absolute;left:0;right:0;top:calc(100% + 4px);background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 28px rgba(11,37,69,.16);z-index:60;max-height:260px;overflow-y:auto;display:none}
+  .pa-sel.open .pa-sel-list{display:block}
+  .pa-sel-opt{padding:11px 14px;font-size:15px;color:var(--ink);cursor:pointer;line-height:1.35}
+  .pa-sel-opt:hover,.pa-sel-opt.sel{background:var(--card);color:var(--navy);font-weight:bold}
   .hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
   .formwrap button{width:100%;margin-top:24px}
   .sub{margin-top:12px;text-align:center;font-size:13px;color:var(--muted)}
@@ -253,23 +263,30 @@ h2{font-size:38px}
         <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required>
         <label for="email">Email</label>
         <input id="email" name="email" type="email" autocomplete="email" required>
-        <label for="age">Age range</label>
-        <select id="age" name="age_range">
-          <option>Under 45</option><option>45&ndash;54</option><option>55&ndash;59</option><option>60&ndash;64</option><option>65&ndash;69</option><option>70&ndash;74</option><option>75+</option>
-        </select>
-        <label for="amount">How much are you considering putting toward an annuity?</label>
-        <select id="amount" name="amount_range">
-          <option>Not sure yet</option><option>Under $25,000</option><option>$25,000 &ndash; $50,000</option><option>$50,000 &ndash; $100,000</option><option>$100,000 &ndash; $250,000</option><option>$250,000 &ndash; $500,000</option><option>$500,000 &ndash; $1,000,000</option><option>$1,000,000 &ndash; $2,500,000</option><option>$2,500,000+</option>
-        </select>
-        <label for="interest">What's most important to you?</label>
-        <select id="interest" name="interest">
-          <option>Not sure &mdash; help me choose</option>
-          <option>Guaranteed growth (MYGA / fixed)</option>
-          <option>Market-linked growth with protection (indexed)</option>
-          <option>Guaranteed income for life</option>
-          <option>Leaving money to my heirs</option>
-          <option>Rolling over a 401(k) or IRA</option>
-        </select>
+        <label>Age range</label>
+        <div class="pa-sel" id="sel_age">
+          <button type="button" class="pa-sel-btn"><span class="pa-sel-val">Under 45</span><i class="pa-sel-arrow"></i></button>
+          <div class="pa-sel-list">
+            <div class="pa-sel-opt sel">Under 45</div><div class="pa-sel-opt">45&ndash;54</div><div class="pa-sel-opt">55&ndash;59</div><div class="pa-sel-opt">60&ndash;64</div><div class="pa-sel-opt">65&ndash;69</div><div class="pa-sel-opt">70&ndash;74</div><div class="pa-sel-opt">75+</div>
+          </div>
+          <input type="hidden" name="age_range" value="Under 45">
+        </div>
+        <label>How much are you considering putting toward an annuity?</label>
+        <div class="pa-sel" id="amount">
+          <button type="button" class="pa-sel-btn"><span class="pa-sel-val">Not sure yet</span><i class="pa-sel-arrow"></i></button>
+          <div class="pa-sel-list">
+            <div class="pa-sel-opt sel">Not sure yet</div><div class="pa-sel-opt">Under $25,000</div><div class="pa-sel-opt">$25,000 &ndash; $50,000</div><div class="pa-sel-opt">$50,000 &ndash; $100,000</div><div class="pa-sel-opt">$100,000 &ndash; $250,000</div><div class="pa-sel-opt">$250,000 &ndash; $500,000</div><div class="pa-sel-opt">$500,000 &ndash; $1,000,000</div><div class="pa-sel-opt">$1,000,000 &ndash; $2,500,000</div><div class="pa-sel-opt">$2,500,000+</div>
+          </div>
+          <input type="hidden" name="amount_range" value="Not sure yet">
+        </div>
+        <label>What's most important to you?</label>
+        <div class="pa-sel" id="sel_interest">
+          <button type="button" class="pa-sel-btn"><span class="pa-sel-val">Not sure &mdash; help me choose</span><i class="pa-sel-arrow"></i></button>
+          <div class="pa-sel-list">
+            <div class="pa-sel-opt sel">Not sure &mdash; help me choose</div><div class="pa-sel-opt">Guaranteed growth (MYGA / fixed)</div><div class="pa-sel-opt">Market-linked growth with protection (indexed)</div><div class="pa-sel-opt">Guaranteed income for life</div><div class="pa-sel-opt">Leaving money to my heirs</div><div class="pa-sel-opt">Rolling over a 401(k) or IRA</div>
+          </div>
+          <input type="hidden" name="interest" value="Not sure — help me choose">
+        </div>
         <label for="notes">Anything in particular you'd like to discuss? <span class="opt">(optional)</span></label>
         <textarea id="notes" name="notes" maxlength="1000" placeholder="Share any details that would help us prepare&hellip;"></textarea>
         <div class="hp" aria-hidden="true"><label>Leave this field empty</label><input name="xfield_9917" tabindex="-1" autocomplete="new-password"></div>
@@ -353,7 +370,15 @@ h2{font-size:38px}
                 (p < 250000) ? 4 : (p < 500000) ? 5 : (p < 1000000) ? 6 :
                 (p < 2500000) ? 7 : 8;
       var amt = document.getElementById("amount");
-      if (amt) amt.selectedIndex = idx;
+      if (amt) {
+        var opts = amt.querySelectorAll(".pa-sel-opt");
+        if (opts[idx]) {
+          amt.querySelector(".pa-sel-val").textContent = opts[idx].textContent;
+          amt.querySelector('input[type="hidden"]').value = opts[idx].textContent;
+          for (var k = 0; k < opts.length; k++) opts[k].classList.remove("sel");
+          opts[idx].classList.add("sel");
+        }
+      }
     });
   }
 })();
@@ -419,6 +444,41 @@ h2{font-size:38px}
       btn.disabled = false; btn.textContent = "Get My Free Review";
     }
   });
+})();
+
+/* ===== Custom dropdowns (replace native <select>; open reliably in any embed) ===== */
+(function(){
+  var sels = document.querySelectorAll(".pa-sel");
+  function closeAll(except){
+    sels.forEach(function(s){
+      if(s!==except){ s.classList.remove("open"); var b=s.querySelector(".pa-sel-btn"); if(b) b.setAttribute("aria-expanded","false"); }
+    });
+  }
+  sels.forEach(function(sel){
+    var btn = sel.querySelector(".pa-sel-btn");
+    var valEl = sel.querySelector(".pa-sel-val");
+    var input = sel.querySelector('input[type="hidden"]');
+    var opts = sel.querySelectorAll(".pa-sel-opt");
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      var willOpen = !sel.classList.contains("open");
+      closeAll(sel);
+      sel.classList.toggle("open", willOpen);
+      btn.setAttribute("aria-expanded", willOpen ? "true" : "false");
+    });
+    opts.forEach(function(opt){
+      opt.addEventListener("click", function(e){
+        e.stopPropagation();
+        valEl.textContent = opt.textContent;
+        if(input) input.value = opt.textContent;
+        opts.forEach(function(o){ o.classList.remove("sel"); });
+        opt.classList.add("sel");
+        sel.classList.remove("open");
+        btn.setAttribute("aria-expanded","false");
+      });
+    });
+  });
+  document.addEventListener("click", function(){ closeAll(null); });
 })();
 
 /* ===== Smooth-scroll for in-page links (works standalone and embedded) ===== */
