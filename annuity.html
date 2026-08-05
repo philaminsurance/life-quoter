@@ -415,6 +415,15 @@ h2{font-size:38px}
       err.style.display = "block"; return;
     }
     btn.disabled = true; btn.textContent = "Sending…";
+    var notesOut = f.notes.value.trim();
+    if (window.PA_CARRIED) {
+      var _c = window.PA_CARRIED;
+      var _sum = "[From growth calculator: $" + Number(_c.premium).toLocaleString("en-US") +
+                 " premium, " + _c.years + " yrs @ " + _c.rate + "%, projected $" +
+                 Number(_c.annuity).toLocaleString("en-US") + "]";
+      notesOut = notesOut ? (notesOut + "\n\n" + _sum) : _sum;
+    }
+    notesOut = notesOut.slice(0, 1000);
     var payload = {
       full_name: f.full_name.value.trim(),
       phone: "+1" + digits,
@@ -427,7 +436,7 @@ h2{font-size:38px}
       calculator_rate: (window.PA_CARRIED ? window.PA_CARRIED.rate : ""),
       calculator_projected_value: (window.PA_CARRIED ? window.PA_CARRIED.annuity : ""),
       interest: f.interest.value,
-      notes: f.notes.value.trim().slice(0, 1000),
+      notes: notesOut,
       source: "annuity-landing-page",
       submitted_at: new Date().toISOString(),
       page_url: location.href,
