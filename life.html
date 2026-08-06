@@ -261,17 +261,19 @@ h2{font-size:38px}
     if(!q){ window.PA_LIFE = null; return; }
     var ptypeMap = { fe:"Final Expense", term:"Term Life", wl:"Whole Life" };
     var annual = Math.round(q.monthly * 12 * 100) / 100;
+    // keys align to the existing GHL Life opportunity custom fields
     window.PA_LIFE = {
-      carrier: q.name,
-      product: q.product,
-      product_type: ptypeMap[S.product] || S.product,
-      coverage: S.cov,
+      quoted_carrier: q.name,
+      quoted_product: q.product,
+      life_product_type: ptypeMap[S.product] || S.product,
+      life_coverage_amount: S.cov,
       coverage_display: money(S.cov),
-      term: (S.product === "term" ? S.term : ""),
-      monthly: Math.round(q.monthly * 100) / 100,
+      life_term_length: (S.product === "term" ? S.term : ""),
+      quote_age: S.age,
+      quoted_premium: money2(q.monthly) + "/mo",
       monthly_display: money2(q.monthly) + "/mo",
-      annual: annual,
-      annual_display: money2(annual)
+      opportunity_value: annual,
+      opportunity_value_display: money2(annual)
     };
   }
 
@@ -525,9 +527,9 @@ document.getElementById("lifeForm").addEventListener("submit", async (e) => {
   const q = window.PA_LIFE || null;
   let notes = f.notes.value.trim().slice(0, 1000);
   if (q) {
-    notes = ("[Selected quote: " + q.carrier + " — " + q.product + " · " + q.product_type +
-      (q.term ? " " + q.term + "yr" : "") + " · " + q.coverage_display + " coverage · " +
-      q.monthly_display + " (" + q.annual_display + "/yr)]\n" + notes).slice(0, 1000);
+    notes = ("[Selected quote: " + q.quoted_carrier + " — " + q.quoted_product + " · " + q.life_product_type +
+      (q.life_term_length ? " " + q.life_term_length + "yr" : "") + " · " + q.coverage_display + " coverage · " +
+      q.quoted_premium + " (" + q.opportunity_value_display + "/yr)]\n" + notes).slice(0, 1000);
   }
   const payload = {
     full_name: f.full_name.value.trim(),
@@ -538,17 +540,16 @@ document.getElementById("lifeForm").addEventListener("submit", async (e) => {
     interest: f.interest.value,
     notes: notes,
     dime_estimate: dimeVal !== "$0" ? dimeVal : "",
-    quote_carrier: q ? q.carrier : "",
-    quote_product: q ? q.product : "",
-    quote_product_type: q ? q.product_type : "",
-    quote_coverage: q ? q.coverage : "",
-    quote_coverage_display: q ? q.coverage_display : "",
-    quote_term: q ? q.term : "",
-    quote_monthly: q ? q.monthly : "",
-    quote_monthly_display: q ? q.monthly_display : "",
-    quote_annual: q ? q.annual : "",
-    opportunity_value: q ? q.annual : "",
-    opportunity_value_display: q ? q.annual_display : "",
+    quoted_carrier: q ? q.quoted_carrier : "",
+    quoted_product: q ? q.quoted_product : "",
+    life_product_type: q ? q.life_product_type : "",
+    life_coverage_amount: q ? q.life_coverage_amount : "",
+    coverage_display: q ? q.coverage_display : "",
+    life_term_length: q ? q.life_term_length : "",
+    quote_age: q ? q.quote_age : "",
+    quoted_premium: q ? q.quoted_premium : "",
+    opportunity_value: q ? q.opportunity_value : "",
+    opportunity_value_display: q ? q.opportunity_value_display : "",
     source: "life-landing-page",
     submitted_at: new Date().toISOString(),
     page_url: location.href,
