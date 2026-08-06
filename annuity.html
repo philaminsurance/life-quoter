@@ -173,11 +173,6 @@ h2{font-size:38px}
           <input type="range" id="s_years" min="1" max="30" step="1" value="10">
         </div>
         <div>
-          <label>Assumed annual growth rate <span class="hint">(illustrative)</span></label>
-          <div class="rangeval" id="v_rate">5.0%</div>
-          <input type="range" id="s_rate" min="1" max="8" step="0.1" value="5">
-        </div>
-        <div>
           <label>Your tax bracket <span class="hint">(for the taxable comparison)</span></label>
           <div class="toggle" id="t_bracket">
             <button class="tg" data-v="0.12">12%</button>
@@ -319,10 +314,8 @@ h2{font-size:38px}
   var els = {
     premium: document.getElementById("s_premium"),
     years:   document.getElementById("s_years"),
-    rate:    document.getElementById("s_rate"),
     vPrem:   document.getElementById("v_premium"),
     vYears:  document.getElementById("v_years"),
-    vRate:   document.getElementById("v_rate"),
     rAnn:    document.getElementById("r_annuity"),
     rTax:    document.getElementById("r_taxable"),
     rAdv:    document.getElementById("r_adv")
@@ -335,7 +328,6 @@ h2{font-size:38px}
     last = { premium:P, years:n, rate:S.rate, bracket:S.bracket, annuity:Math.round(annuity), taxable:Math.round(taxable) };
     els.vPrem.textContent  = money(P);
     els.vYears.textContent = n + (n===1 ? " year" : " years");
-    els.vRate.textContent  = S.rate.toFixed(1) + "%";
     els.rAnn.textContent   = money(annuity);
     els.rTax.textContent   = money(taxable);
     var interest = annuity - P;
@@ -346,7 +338,6 @@ h2{font-size:38px}
   }
   els.premium.addEventListener("input", function(){ S.premium = parseInt(this.value,10); calc(); });
   els.years.addEventListener("input",   function(){ S.years   = parseInt(this.value,10); calc(); });
-  els.rate.addEventListener("input",    function(){ S.rate    = parseFloat(this.value);  calc(); });
   document.getElementById("t_bracket").querySelectorAll(".tg").forEach(function(b){
     b.addEventListener("click", function(){
       document.querySelectorAll("#t_bracket .tg").forEach(function(x){ x.classList.remove("is-on"); });
@@ -435,6 +426,7 @@ h2{font-size:38px}
       calculator_years: (window.PA_CARRIED ? window.PA_CARRIED.years : ""),
       calculator_rate: (window.PA_CARRIED ? window.PA_CARRIED.rate : ""),
       calculator_projected_value: (window.PA_CARRIED ? window.PA_CARRIED.annuity : ""),
+      opportunity_value: (window.PA_CARRIED ? Math.round(window.PA_CARRIED.premium * 0.0725) : ""),
       interest: f.interest.value,
       notes: notesOut,
       source: "annuity-landing-page",
