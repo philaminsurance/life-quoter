@@ -63,6 +63,16 @@
   .formwrap input,.formwrap select,.formwrap textarea{width:100%;padding:13px 14px;font-size:15px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-family:inherit}
   .formwrap input:focus,.formwrap select:focus,.formwrap textarea:focus{outline:none;border-color:var(--gold);background:#fff}
   .formwrap textarea{min-height:88px;resize:vertical}
+  /* custom dropdowns — native <select> popups don't open inside an embedded iframe */
+  .pa-sel{position:relative;font-family:inherit}
+  .pa-sel-btn{width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;font-size:15px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-family:inherit;cursor:pointer}
+  .pa-sel.open .pa-sel-btn,.pa-sel-btn:focus{outline:none;border-color:var(--gold);background:#fff}
+  .pa-sel-arrow{flex:0 0 auto;width:8px;height:8px;border:solid var(--muted);border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-3px;transition:transform .15s}
+  .pa-sel.open .pa-sel-arrow{transform:rotate(-135deg);margin-top:3px}
+  .pa-sel-list{position:absolute;left:0;right:0;top:calc(100% + 4px);background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 28px rgba(11,37,69,.16);z-index:60;max-height:260px;overflow-y:auto;display:none}
+  .pa-sel.open .pa-sel-list{display:block}
+  .pa-sel-opt{padding:11px 14px;font-size:15px;color:var(--ink);cursor:pointer;line-height:1.35}
+  .pa-sel-opt:hover,.pa-sel-opt.sel{background:var(--card);color:var(--navy);font-weight:bold}
   .hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
   .formwrap button{width:100%;margin-top:24px}
   .sub{margin-top:12px;text-align:center;font-size:13px;color:var(--muted)}
@@ -245,6 +255,26 @@ h2{font-size:38px}
   /* ---------- state ---------- */
   var S = { product:"fe", age:65, gender:"F", tob:false, state:"TX", tier:"Level", cov:10000, term:"20" };
 
+  /* ---------- selected-quote capture (feeds the lead's opportunity) ---------- */
+  var curList = [];
+  function setLifeSel(q){
+    if(!q){ window.PA_LIFE = null; return; }
+    var ptypeMap = { fe:"Final Expense", term:"Term Life", wl:"Whole Life" };
+    var annual = Math.round(q.monthly * 12 * 100) / 100;
+    window.PA_LIFE = {
+      carrier: q.name,
+      product: q.product,
+      product_type: ptypeMap[S.product] || S.product,
+      coverage: S.cov,
+      coverage_display: money(S.cov),
+      term: (S.product === "term" ? S.term : ""),
+      monthly: Math.round(q.monthly * 100) / 100,
+      monthly_display: money2(q.monthly) + "/mo",
+      annual: annual,
+      annual_display: money2(annual)
+    };
+  }
+
   function paEmbedded(){ try{ return window.parent && window.parent!==window; }catch(e){ return true; } }
   function paScrollToEl(el){ if(!el) return; if(paEmbedded()){ var top=el.getBoundingClientRect().top+(window.pageYOffset||document.documentElement.scrollTop||0); try{ parent.postMessage({paScrollTo:Math.round(top)},"*"); }catch(e){} } else { el.scrollIntoView({behavior:"smooth",block:"start"}); } }
   function scrollToForm(){ paScrollToEl(document.getElementById("quote")); }
@@ -252,10 +282,11 @@ h2{font-size:38px}
     var results="";
     function resultCards(list, subtitle){
       var s='', best=list[0];
+      curList = list; setLifeSel(list[0]);
       s+='<div class="pa-hero"><div class="pa-hero-l">Estimated rates from</div><div class="pa-hero-p">'+money2(best.monthly)+'<span>/mo</span></div><div class="pa-hero-s">'+subtitle+'</div></div>';
       s+='<div class="pa-cards">';
       for(var j=0;j<list.length;j++){ var q=list[j];
-        s+='<div class="pa-card'+(j===0?" is-best":"")+'"><div class="pa-card-main"><div class="pa-card-name">'+q.name+(j===0?' <span class="pa-badge">Lowest</span>':'')+'</div><div class="pa-card-sub">'+q.product+'</div></div><div class="pa-card-right"><div class="pa-card-price">'+money2(q.monthly)+'<span>/mo</span></div><button class="pa-mini" data-cta="1">Get this rate</button></div></div>';
+        s+='<div class="pa-card'+(j===0?" is-best":"")+'"><div class="pa-card-main"><div class="pa-card-name">'+q.name+(j===0?' <span class="pa-badge">Lowest</span>':'')+'</div><div class="pa-card-sub">'+q.product+'</div></div><div class="pa-card-right"><div class="pa-card-price">'+money2(q.monthly)+'<span>/mo</span></div><button class="pa-mini" data-cta="1" data-idx="'+j+'">Get this rate</button></div></div>';
       }
       return s+'</div>';
     }
@@ -274,7 +305,7 @@ h2{font-size:38px}
     }
     return results;
   }
-  function bindCta(){ ROOT.querySelectorAll("[data-cta]").forEach(function(b){ b.onclick=function(e){ e.preventDefault(); scrollToForm(); }; }); }
+  function bindCta(){ ROOT.querySelectorAll("[data-cta]").forEach(function(b){ b.onclick=function(e){ e.preventDefault(); var idx=b.getAttribute("data-idx"); if(idx!==null && curList[+idx]) setLifeSel(curList[+idx]); scrollToForm(); }; }); }
   function renderResults(){ var el=ROOT.querySelector(".pa-results"); if(el){ el.innerHTML=computeResults(); bindCta(); } }
 
   /* ---------- render ---------- */
@@ -409,18 +440,22 @@ h2{font-size:38px}
         <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required>
         <label for="email">Email</label>
         <input id="email" name="email" type="email" autocomplete="email" required>
-        <label for="age">Age range</label>
-        <select id="age" name="age_range">
-          <option>Under 30</option><option>30–39</option><option>40–49</option><option>50–59</option><option>60–69</option><option>70+</option>
-        </select>
-        <label for="interest">What are you most interested in?</label>
-        <select id="interest" name="interest">
-          <option>Not sure — help me choose</option>
-          <option>Term life</option>
-          <option>Whole life</option>
-          <option>Indexed Universal Life (IUL)</option>
-          <option>Final expense</option>
-        </select>
+        <label>Age range</label>
+        <div class="pa-sel" id="sel_age">
+          <button type="button" class="pa-sel-btn"><span class="pa-sel-val">Under 30</span><i class="pa-sel-arrow"></i></button>
+          <div class="pa-sel-list">
+            <div class="pa-sel-opt sel">Under 30</div><div class="pa-sel-opt">30&ndash;39</div><div class="pa-sel-opt">40&ndash;49</div><div class="pa-sel-opt">50&ndash;59</div><div class="pa-sel-opt">60&ndash;69</div><div class="pa-sel-opt">70+</div>
+          </div>
+          <input type="hidden" name="age_range" value="Under 30">
+        </div>
+        <label>What are you most interested in?</label>
+        <div class="pa-sel" id="sel_interest">
+          <button type="button" class="pa-sel-btn"><span class="pa-sel-val">Not sure &mdash; help me choose</span><i class="pa-sel-arrow"></i></button>
+          <div class="pa-sel-list">
+            <div class="pa-sel-opt sel">Not sure &mdash; help me choose</div><div class="pa-sel-opt">Term life</div><div class="pa-sel-opt">Whole life</div><div class="pa-sel-opt">Indexed Universal Life (IUL)</div><div class="pa-sel-opt">Final expense</div>
+          </div>
+          <input type="hidden" name="interest" value="Not sure — help me choose">
+        </div>
         <label for="notes">Anything in particular you'd like to discuss? <span class="opt">(optional)</span></label>
         <textarea id="notes" name="notes" maxlength="1000" placeholder="Share any details that would help us prepare…"></textarea>
         <div class="hp" aria-hidden="true"><label>Leave this field empty</label><input name="xfield_9917" tabindex="-1" autocomplete="new-password"></div>
@@ -487,6 +522,13 @@ document.getElementById("lifeForm").addEventListener("submit", async (e) => {
   }
   btn.disabled = true; btn.textContent = "Sending…";
   const dimeVal = document.getElementById("dime_total").textContent;
+  const q = window.PA_LIFE || null;
+  let notes = f.notes.value.trim().slice(0, 1000);
+  if (q) {
+    notes = ("[Selected quote: " + q.carrier + " — " + q.product + " · " + q.product_type +
+      (q.term ? " " + q.term + "yr" : "") + " · " + q.coverage_display + " coverage · " +
+      q.monthly_display + " (" + q.annual_display + "/yr)]\n" + notes).slice(0, 1000);
+  }
   const payload = {
     full_name: f.full_name.value.trim(),
     phone: "+1" + digits,
@@ -494,8 +536,19 @@ document.getElementById("lifeForm").addEventListener("submit", async (e) => {
     email: f.email.value.trim().toLowerCase(),
     age_range: f.age_range.value,
     interest: f.interest.value,
-    notes: f.notes.value.trim().slice(0, 1000),
+    notes: notes,
     dime_estimate: dimeVal !== "$0" ? dimeVal : "",
+    quote_carrier: q ? q.carrier : "",
+    quote_product: q ? q.product : "",
+    quote_product_type: q ? q.product_type : "",
+    quote_coverage: q ? q.coverage : "",
+    quote_coverage_display: q ? q.coverage_display : "",
+    quote_term: q ? q.term : "",
+    quote_monthly: q ? q.monthly : "",
+    quote_monthly_display: q ? q.monthly_display : "",
+    quote_annual: q ? q.annual : "",
+    opportunity_value: q ? q.annual : "",
+    opportunity_value_display: q ? q.annual_display : "",
     source: "life-landing-page",
     submitted_at: new Date().toISOString(),
     page_url: location.href,
@@ -512,6 +565,42 @@ document.getElementById("lifeForm").addEventListener("submit", async (e) => {
     btn.disabled = false; btn.textContent = "Get My Free Quote";
   }
 });
+</script>
+<script>
+/* ===== Custom dropdowns (replace native <select>; open reliably in any embed) ===== */
+(function(){
+  var sels = document.querySelectorAll(".pa-sel");
+  function closeAll(except){
+    sels.forEach(function(s){
+      if(s!==except){ s.classList.remove("open"); var b=s.querySelector(".pa-sel-btn"); if(b) b.setAttribute("aria-expanded","false"); }
+    });
+  }
+  sels.forEach(function(sel){
+    var btn = sel.querySelector(".pa-sel-btn");
+    var valEl = sel.querySelector(".pa-sel-val");
+    var input = sel.querySelector('input[type="hidden"]');
+    var opts = sel.querySelectorAll(".pa-sel-opt");
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      var willOpen = !sel.classList.contains("open");
+      closeAll(sel);
+      sel.classList.toggle("open", willOpen);
+      btn.setAttribute("aria-expanded", willOpen ? "true" : "false");
+    });
+    opts.forEach(function(opt){
+      opt.addEventListener("click", function(e){
+        e.stopPropagation();
+        valEl.textContent = opt.textContent;
+        if(input) input.value = opt.textContent;
+        opts.forEach(function(o){ o.classList.remove("sel"); });
+        opt.classList.add("sel");
+        sel.classList.remove("open");
+        btn.setAttribute("aria-expanded","false");
+      });
+    });
+  });
+  document.addEventListener("click", function(){ closeAll(null); });
+})();
 </script>
 <script>
 (function(){var b=document.getElementById("dime_cta");if(!b)return;b.addEventListener("click",function(e){e.preventDefault();var n=parseInt((document.getElementById("dime_total").textContent||"").replace(/[^0-9]/g,""))||0;if(window.paQuote){window.paQuote.set("term", n||undefined);}else{location.hash="#ratecheck";}});})();
